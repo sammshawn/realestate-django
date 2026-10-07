@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}All Properties | Prime Properties Kenya{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">All Properties</h2>
+        <p class="section-subtitle">{{ properties|length }} properties available</p>
+
+        {% if properties %}
+        <div class="property-grid">
+            {% for property in properties %}
+            <a href="{% url 'listings:property_detail' property.pk %}" style="text-decoration:none; color:inherit;">
+                <div class="property-card">
+                    {% if property.image %}
+                        <img src="{{ property.image.url }}" alt="{{ property.title }}" class="property-image">
+                    {% else %}
+                        <div class="property-image-placeholder">🏠</div>
+                    {% endif %}
+                    <div class="property-body">
+                        <h3 class="property-title">{{ property.title }}</h3>
+                        <p class="property-location">📍 {{ property.location }}, {{ property.city }}</p>
+                        <p class="property-price">{{ property.formatted_price }}</p>
+                        <div class="property-meta">
+                            <span>🛏 {{ property.bedrooms }} beds</span>
+                            <span>🚿 {{ property.bathrooms }} baths</span>
+                            <span>📐 {{ property.area_sqft }} sqft</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="text-align:center; color:#6b7280;">No properties yet. Add one in the admin.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
